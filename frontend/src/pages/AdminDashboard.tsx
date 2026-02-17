@@ -11,9 +11,9 @@ const AdminDashboard = () => {
         const fetchData = async () => {
             try {
                 const [statsRes, usersRes, leadsRes] = await Promise.all([
-                    axios.get('http://localhost:3000/api/admin/stats'),
-                    axios.get('http://localhost:3000/api/admin/users'),
-                    axios.get('http://localhost:3000/api/admin/leads')
+                    axios.get('https://servicoperto-backend.onrender.com/api/admin/stats'),
+                    axios.get('https://servicoperto-backend.onrender.com/api/admin/users'),
+                    axios.get('https://servicoperto-backend.onrender.com/api/admin/leads')
                 ]);
                 setStats(statsRes.data);
                 setUsers(usersRes.data);
