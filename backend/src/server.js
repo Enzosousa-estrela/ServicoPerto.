@@ -44,10 +44,24 @@ const pool = new Pool({
     }
 });
 
+// Verify connection
+pool.query('SELECT NOW()', (err, res) => {
+    if (err) {
+        console.error('❌ Database connection error:', err.message);
+    } else {
+        console.log('✅ Database connected successfully at:', res.rows[0].now);
+    }
+});
+
 // --- Mock Data for Plans (Synced with DB in production) ---
 const PLANS = [
     { id: 'pla_pro_monthly', name: 'Profissional', price: 49.90, google_id: 'com.servicoperto.pro', apple_id: 'com.servicoperto.pro' }
 ];
+
+// --- Health Check / Diagnostics ---
+app.get('/', (req, res) => {
+    res.json({ status: 'online', service: 'ServicoPerto Backend', timestamp: new Date() });
+});
 
 // --- API Endpoints ---
 
