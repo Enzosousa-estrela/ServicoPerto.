@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServiçoPerto - Preview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Modern Font */
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #0f172a;
+            /* Dark background for contrast */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .iphone-frame {
+            width: 375px;
+            height: 812px;
+            background: #ffffff;
+            border-radius: 40px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            position: relative;
+            border: 12px solid #000000;
+        }
+
+        .notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 30px;
+            background: #000000;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            z-index: 50;
+        }
+
+        .content {
+            height: 100%;
+            overflow-y: auto;
+            padding-top: 40px;
+            padding-bottom: 20px;
+            background: #F8FAFC;
+        }
+
+        /* Hide scrollbar */
+        .content::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Custom Gradients & Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #2563EB 0%, #4F46E5 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #2563EB 0%, #4F46E5 100%);
+        }
+
+        .plan-card-pro {
+            background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="iphone-frame">
+        <div class="notch"></div>
+
+        <!-- Home Screen -->
+        <div id="home-screen" class="content">
+            <!-- Header -->
+            <div
+                class="px-6 py-4 flex justify-between items-center glass-panel sticky top-0 z-40 bg-white/80 backdrop-blur-md">
+                <span class="text-blue-600 font-extrabold text-xl tracking-tight">Serviço<span
+                        class="text-slate-800">Perto</span></span>
+                <div
+                    class="w-10 h-10 bg-gradient-to-tr from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-200">
+                    EL
+                </div>
+            </div>
+
+            <div class="px-6 pt-6 pb-4">
+                <h1 class="text-3xl font-extrabold text-slate-900 leading-tight">
+                    Encontre <span class="gradient-text">especialistas</span> <br>
+                    perto de você em <br>
+                    poucos cliques.
+                </h1>
+                <p class="mt-4 text-slate-500 text-base font-medium leading-relaxed">
+                    O App mais rápido e seguro para contratar e oferecer serviços na sua região.
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="mt-8 space-y-4">
+                    <button onclick="openClientLead()"
+                        class="w-full gradient-bg text-white py-4 rounded-2xl font-bold text-lg shadow-xl shadow-blue-200 active:scale-95 transition-all flex items-center justify-center gap-3">
+                        Quero Contratar
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    <button onclick="router.push('plans')"
+                        class="w-full bg-white text-slate-700 border border-slate-200 py-4 rounded-2xl font-bold text-lg active:scale-95 transition-all shadow-sm flex items-center justify-center gap-2">
+                        Quero Oferecer Serviços
+                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Client Lead Section -->
+                <div id="client-lead-area" class="mt-8 hidden bg-blue-50 p-6 rounded-3xl border border-blue-100">
+                    <h3 class="font-bold text-blue-900 text-lg mb-2">Seja o primeiro a usar!</h3>
+                    <p class="text-blue-700 text-sm mb-4">Avisaremos você assim que liberarmos novos profissionais na
+                        sua vizinhança.</p>
+                    <form id="client-form" class="space-y-3">
+                        <input type="tel" placeholder="Seu WhatsApp" required
+                            class="w-full bg-white border border-blue-200 p-4 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                        <button type="submit" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold">Me avise
+                            no lançamento</button>
+                    </form>
+                    <div id="client-success" class="hidden text-center py-4">
+                        <p class="text-green-600 font-bold">Pronto! Você está na lista VIP. ✨</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trust Badges -->
+            <div class="px-6 mt-4 flex justify-between">
+                <div class="flex items-center gap-1">
+                    <span class="text-blue-500 text-xl">🛡️</span>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">Seguro</span>
+                </div>
+                <div class="flex items-center gap-1">
+                    <span class="text-blue-500 text-xl">📍</span>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">Local</span>
+                </div>
+                <div class="flex items-center gap-1">
+                    <span class="text-blue-500 text-xl">⭐</span>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">Qualidade</span>
+                </div>
+            </div>
+
+            <!-- Simulation Result Area -->
+            <div id="location-results" class="mt-8 hidden">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2">
+                        Resultados Próximos
+                    </h3>
+                    <span
+                        class="text-xs font-bold bg-green-100 text-green-700 px-2 py-1 rounded-full flex items-center gap-1">
+                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Ao vivo
+                    </span>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Provider 1 -->
+                    <div
+                        class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 active:scale-95 transition-transform">
+                        <div class="w-14 h-14 rounded-2xl bg-cover bg-center shadow-md"
+                            style="background-image: url('https://images.unsplash.com/photo-1540569014015-19a7be504e3a?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80')">
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-slate-900 text-lg">Carlos Silva</h4>
+                            <div class="flex items-center gap-2 text-sm text-slate-500 mt-0.5">
+                                <span
+                                    class="bg-blue-50 text-blue-700 font-bold px-2 py-0.5 rounded text-xs">Eletricista</span>
+                                <span>•</span>
+                                <span class="flex items-center gap-1 text-amber-500 font-bold">
+                                    ★ 4.9
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="text-xs font-bold text-slate-400">0.8km</span>
+                        </div>
+                    </div>
+
+                    <!-- Provider 2 -->
+                    <div
+                        class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 active:scale-95 transition-transform">
+                        <div class="w-14 h-14 rounded-2xl bg-cover bg-center shadow-md"
+                            style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80')">
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-slate-900 text-lg">João Souza</h4>
+                            <div class="flex items-center gap-2 text-sm text-slate-500 mt-0.5">
+                                <span
+                                    class="bg-slate-100 text-slate-700 font-bold px-2 py-0.5 rounded text-xs">Encanador</span>
+                                <span>•</span>
+                                <span class="flex items-center gap-1 text-amber-500 font-bold">
+                                    ★ 4.8
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="text-xs font-bold text-slate-400">1.2km</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories Scroller -->
+        <div class="mt-4 px-4 pb-8">
+            <h2 class="text-lg font-bold text-slate-900 mb-4 px-2">Categorias</h2>
+            <div class="flex space-x-4 overflow-x-auto pb-4 px-2 no-scrollbar">
+                <div class="flex-shrink-0 flex flex-col items-center gap-2">
+                    <div
+                        class="w-16 h-16 bg-white border border-slate-100 rounded-2xl flex items-center justify-center text-3xl shadow-sm">
+                        ⚡</div>
+                    <span class="text-xs font-bold text-slate-600">Elétrica</span>
+                </div>
+                <div class="flex-shrink-0 flex flex-col items-center gap-2">
+                    <div
+                        class="w-16 h-16 bg-white border border-slate-100 rounded-2xl flex items-center justify-center text-3xl shadow-sm">
+                        🔧</div>
+                    <span class="text-xs font-bold text-slate-600">Hidráulica</span>
+                </div>
+                <div class="flex-shrink-0 flex flex-col items-center gap-2">
+                    <div
+                        class="w-16 h-16 bg-white border border-slate-100 rounded-2xl flex items-center justify-center text-3xl shadow-sm">
+                        🎨</div>
+                    <span class="text-xs font-bold text-slate-600">Pintura</span>
+                </div>
+                <div class="flex-shrink-0 flex flex-col items-center gap-2">
+                    <div
+                        class="w-16 h-16 bg-white border border-slate-100 rounded-2xl flex items-center justify-center text-3xl shadow-sm">
+                        🧹</div>
+                    <span class="text-xs font-bold text-slate-600">Limpeza</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Plans Screen (Hidden by default) -->
+    <div id="plans-screen" class="content bg-slate-50 hidden">
+        <div class="px-6 py-4 flex items-center sticky top-0 bg-slate-50/90 backdrop-blur-sm z-50">
+            <button onclick="router.back()"
+                class="p-2 -ml-2 text-slate-800 rounded-full hover:bg-slate-200 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7">
+                    </path>
+                </svg>
+            </button>
+        </div>
+
+        <div class="px-6 pb-20 space-y-6">
+            <div>
+                <h2 class="text-3xl font-extrabold text-slate-900 leading-tight">Seja um <span
+                        class="gradient-text">Pioneiro</span> no <br> ServiçoPerto</h2>
+                <p class="text-slate-500 mt-2 font-medium">Os primeiros profissionais cadastrados terão prioridade
+                    vitalícia nas buscas.</p>
+            </div>
+
+            <!-- Value Prop for Pros -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                    <span class="text-2xl mb-2 block">🌍</span>
+                    <h4 class="font-bold text-xs text-slate-900">Novos Clientes</h4>
+                    <p class="text-[10px] text-slate-400">Apareça para quem precisa agora.</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                    <span class="text-2xl mb-2 block">💰</span>
+                    <h4 class="font-bold text-xs text-slate-900">Renda Extra</h4>
+                    <p class="text-[10px] text-slate-400">Trabalhe nos seus horários.</p>
+                </div>
+            </div>
+
+            <!-- Lead Capture Form Professional -->
+            <div class="bg-white p-6 rounded-3xl shadow-lg border border-slate-100">
+                <h3 class="font-bold text-slate-900 mb-4 text-sm">Garanta sua vaga na lista VIP:</h3>
+                <form id="lead-form" class="space-y-4">
+                    <div>
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Nome Completo</label>
+                        <input type="text" placeholder="Ex: João Silva" required
+                            class="w-full mt-1 bg-slate-50 border border-slate-200 p-4 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Especialidade</label>
+                        <select required
+                            class="w-full mt-1 bg-slate-50 border border-slate-200 p-4 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-sm">
+                            <option value="">O que você faz?</option>
+                            <option value="eletrica">Elétrica</option>
+                            <option value="hidraulica">Hidráulica</option>
+                            <option value="pintura">Pintura</option>
+                            <option value="limpeza">Limpeza</option>
+                            <option value="marcenaria">Marcenaria</option>
+                            <option value="outros">Outros</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">WhatsApp</label>
+                        <input type="tel" placeholder="(00) 00000-0000" required
+                            class="w-full mt-1 bg-slate-50 border border-slate-200 p-4 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                    </div>
+                    <button type="submit"
+                        class="w-full gradient-bg text-white py-4 rounded-2xl font-bold text-lg shadow-lg active:scale-95 transition-transform">
+                        Quero o Mês Grátis
+                    </button>
+                </form>
+                <div id="form-success" class="hidden text-center py-4">
+                    <div
+                        class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7">
+                            </path>
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-bold text-slate-900">Vaga Garantida!</h4>
+                    <p class="text-slate-500 mt-1">Entraremos em contato via WhatsApp em breve.</p>
+                </div>
+            </div>
+
+            <div class="bg-blue-600/10 p-4 rounded-2xl border border-blue-200">
+                <p class="text-blue-700 text-[10px] text-center font-bold">🎁 Ao se cadastrar hoje, você ganha o SELO DE
+                    PIONEIRO e visibilidade máxima nas buscas.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIX Modal -->
+    <div id="pix-modal" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-end z-[100]">
+        <div
+            class="w-full bg-white rounded-t-[32px] p-6 pb-10 transform transition-transform duration-300 translate-y-0 shadow-2xl">
+            <div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-8"></div>
+
+            <div class="text-center mb-8">
+                <h3 class="text-2xl font-extrabold text-slate-900">Finalizar Assinatura</h3>
+                <p class="text-slate-500 mt-2 font-medium">Você escolheu o plano <span id="plan-name"
+                        class="text-blue-600 font-bold">Profissional</span>.</p>
+            </div>
+
+            <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 mb-8 text-center">
+                <p class="text-xs text-slate-400 uppercase font-bold tracking-widest mb-2">Chave PIX (Telefone)</p>
+                <p class="text-3xl font-bold text-slate-900 select-all tracking-tight">(71) 99365-7069</p>
+                <div class="h-px w-full bg-slate-200 my-4"></div>
+                <p class="text-xs text-slate-400 uppercase font-bold tracking-widest mb-1">Beneficiário</p>
+                <p class="text-lg font-bold text-slate-700">Enzo Lima de Sousa</p>
+            </div>
+
+            <button onclick="copyPix()"
+                class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold text-lg mb-3 flex justify-center items-center gap-2 shadow-lg shadow-blue-200 active:scale-95 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3">
+                    </path>
+                </svg>
+                Copiar e Finalizar
+            </button>
+
+            <button onclick="closePixModal()"
+                class="w-full py-4 text-slate-500 font-bold hover:text-slate-800 transition-colors">Cancelar</button>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        const router = {
+            push: (route) => {
+                document.getElementById('home-screen').classList.add('hidden');
+                document.getElementById('plans-screen').classList.remove('hidden');
+                window.scrollTo(0, 0);
+            },
+            back: () => {
+                document.getElementById('plans-screen').classList.add('hidden');
+                document.getElementById('home-screen').classList.remove('hidden');
+            }
+        };
+
+        function openPixModal(planName, price) {
+            document.getElementById('plan-name').innerText = planName;
+            document.getElementById('pix-modal').classList.remove('hidden');
+        }
+
+        function closePixModal() {
+            document.getElementById('pix-modal').classList.add('hidden');
+        }
+
+        function copyPix() {
+            navigator.clipboard.writeText("71993657069");
+            const btn = document.querySelector('button[onclick="copyPix()"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = "Copiado!";
+            btn.classList.add('bg-green-600');
+
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('bg-green-600');
+            }, 2000);
+        }
+
+        function openClientLead() {
+            document.getElementById('client-lead-area').classList.remove('hidden');
+            document.getElementById('client-lead-area').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        async function saveLead(data) {
+            try {
+                const response = await fetch('http://localhost:3000/api/leads', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                return await response.json();
+            } catch (err) {
+                console.error('Error saving lead:', err);
+                return { success: false };
+            }
+        }
+
+        document.getElementById('client-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const btn = this.querySelector('button');
+            const whatsapp = this.querySelector('input').value;
+
+            btn.innerHTML = "Enviando...";
+            btn.disabled = true;
+
+            const res = await saveLead({ whatsapp, type: 'CLIENT' });
+
+            if (res.success) {
+                this.classList.add('hidden');
+                document.getElementById('client-success').classList.remove('hidden');
+            } else {
+                alert('Erro ao enviar. Verifique se o servidor está ligado!');
+                btn.innerHTML = "Tentar novamente";
+                btn.disabled = false;
+            }
+        });
+
+        document.getElementById('lead-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const btn = this.querySelector('button');
+            const name = this.querySelector('input[type="text"]').value;
+            const specialty = this.querySelector('select').value;
+            const whatsapp = this.querySelector('input[type="tel"]').value;
+
+            btn.innerHTML = "Enviando...";
+            btn.disabled = true;
+
+            const res = await saveLead({ name, specialty, whatsapp, type: 'PROVIDER' });
+
+            if (res.success) {
+                this.classList.add('hidden');
+                document.getElementById('form-success').classList.remove('hidden');
+            } else {
+                alert('Erro ao enviar. Verifique se o servidor está ligado!');
+                btn.innerHTML = "Tentar novamente";
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>
