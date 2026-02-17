@@ -39,6 +39,9 @@ app.use(express.json());
 // Database Connection
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
 // --- Mock Data for Plans (Synced with DB in production) ---
